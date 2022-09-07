@@ -1,23 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './Components/Home/Home';
+import Register from './Components/Register/Register';
+import ContextState from './contextState/contextState';
+import Post from './Components/Posts/Post';
 
 function App() {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App-header'>
+      <ContextState>
+        <Router>
+          <Routes>
+            <Route exact path='/' element={<Home />} />
+            <Route exact path='/register' element={<Register />} />
+            <Route exact path='/posts' element={<Post />} />
+            {/* <Route exact path='/posts' element={ <ParentPost />} />
+            <Route exact path='/posts/notloggedin' element={ <NotLoggedInPost />} />
+            <Route exact path='/posts/:id/comments' element={<ParentComments />} /> */}
+          </Routes>
+        </Router>
+      </ContextState>
     </div>
   );
 }

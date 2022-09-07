@@ -1,0 +1,30 @@
+const constants = {
+    app_title: 'Blog App',
+    email: 'Email',
+    password: 'Password',
+    enter_an_email: 'Enter an Email Address',
+    enter_password: 'Enter your Password',
+    login: 'Login',
+    logout: 'Logout',
+    create_an_account: 'Create An Account',
+    name: 'Name',
+    confirm_password: 'Confirm Password',
+    re_enter_your_password: 'Re-enter Your Password',
+    enter_you_name: "Enter Your Full Name",
+    register: "Register",
+    already_exist: 'Already have an account? Login',
+    API_Error: 'API is not working properly',
+    posts: 'Posts',
+    comments: 'Comments',
+    create_new_post: 'Create New Post',
+    close_the_dialog: 'Dismiss',
+    new_post: 'New Post',
+    title: 'Title',
+    body: 'Body',
+    publish_the_post: 'Publish',
+    edit: 'Edit',
+    delete: 'Delete',
+    edit_done: 'Done'
+}
+
+export default constants
