@@ -6,13 +6,17 @@ import { FaComments } from 'react-icons/fa'
 import { BiEdit } from 'react-icons/bi'
 import { AiFillDelete } from 'react-icons/ai'
 import './Icon.css'
+import { useNavigate } from 'react-router-dom'
 
 const PostCard = (props) => {
     const context = useContext(contextAPI)
+    const navigate = useNavigate()
     const [editToggle, setEditToggle] = useState(false)
     const [activePostId, setActivePostId] = useState("")
 
-    const openComments = () => { }
+    const openComments = (e) => {
+        navigate(`/post/${e.target.value}/comments`)
+    }
 
     const editHandler = (e) => {
         setActivePostId(e.target.value)
@@ -31,10 +35,11 @@ const PostCard = (props) => {
                     return (
                         <div className="card mb-3" key={post._id}>
                             <div className="card-body">
-                                <h5 className="card-title">{post.title}</h5>
+                                <h3 className='card-title'>{post.ownerName}</h3>
+                                <h5 className="card-text">{post.title}</h5>
                                 <p className="card-text">{post.body}</p>
-                                <button className="btn btn-dark" value={post.id} onClick={openComments}>
-                                    {constants.comments}<FaComments  className='ms-2 mb-0 h5 icons' />
+                                <button className="btn btn-dark" value={post._id} onClick={openComments}>
+                                    {constants.comments}<FaComments className='ms-2 mb-0 h5 icons' />
                                 </button>
                             </div>
                             {

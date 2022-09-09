@@ -5,33 +5,26 @@ import { ImCancelCircle } from 'react-icons/im'
 import constants from '../../constants'
 import contextAPI from '../../contextState/contextAPI'
 import Header from '../Header/Header'
-import PostCard from './PostCard'
 import API from '../../api_config'
+import useFetch from '../../api_hooks/useFetch'
 import './Icon.css'
+import { useNavigate } from 'react-router-dom'
+import PostCard from '../Posts/PostCard'
 
 const Post = () => {
-    // const [posts] = useFetch('posts')
-    const [data, setData] = useState()
-    const [, updateState] = useState();
-    const forceUpdate = useCallback(() => updateState({}), []);
+    const [data] = useFetch('posts')
     const context = useContext(contextAPI)
     const [addNewPost, setAddNewPost] = useState(false)
     const postTitleRef = useRef()
     const postBodyRef = useRef()
+    const navigate = useNavigate()
 
-    const logoutHandle = () => { }
-
-    useEffect(() => {
-        const fetchData = async () => {
-            await axios.get(`${API}/posts`)
-                .then((response) => {
-                    setData(response.data)
-                })
-                .catch(() => console.log(constants.API_Error), [])
-        }
-        fetchData()
-        console.log(data)
-    }, [])
+    const logoutHandle = () => {
+        context.name = ''
+        context.email = ''
+        context.id = ''
+        navigate('/')
+    }
 
     const deleteThePost = (e) => {
         const id = e.target.value
@@ -47,11 +40,13 @@ const Post = () => {
     }
 
     const publishPost = (e) => {
+        console.log(context)
         e.preventDefault()
         const payload = {
             title: postTitleRef.current.value,
             body: postBodyRef.current.value,
-            email: context.email
+            email: context.email,
+            name: context.name
         }
         if (payload.email) {
             axios.post(`${API}/posts`, payload)
@@ -65,12 +60,10 @@ const Post = () => {
                     }
                 })
         }
-        forceUpdate()
     }
 
     const openOrCloseModal = () => {
         setAddNewPost(!addNewPost)
-        forceUpdate()
     }
 
     return (

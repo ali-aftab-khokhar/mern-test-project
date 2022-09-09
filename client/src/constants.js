@@ -24,7 +24,14 @@ const constants = {
     publish_the_post: 'Publish',
     edit: 'Edit',
     delete: 'Delete',
-    edit_done: 'Done'
+    edit_done: 'Done',
+    go_back: 'Back to posts',
+    post: 'Post',
+    loading: 'Loading...',
+    publish_the_comment: 'Publish Comment',
+    add_new_comment: 'Add New Comment',
+    post_title: 'Title: ',
+    post_body: 'Body: '
 }
 
 export default constants

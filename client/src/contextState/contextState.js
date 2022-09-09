@@ -2,7 +2,7 @@ import React, { createContext, useEffect, useState } from 'react'
 import contextAPI from './contextAPI'
 
 const ContextState = (props) => {
-    const [isLoggedIn, setIsLoggedIn] = useState({name: '', email: '', id: '', posts: []})
+    const [isLoggedIn, setIsLoggedIn] = useState({name: '', email: '', id: ''})
 
     useEffect(() => {
         setIsLoggedIn(isLoggedIn)
