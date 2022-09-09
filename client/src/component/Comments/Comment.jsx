@@ -8,6 +8,7 @@ import API from '../../api_config'
 import useFetch from '../../api_hooks/useFetch'
 import { BiEdit } from 'react-icons/bi'
 import { AiFillDelete } from 'react-icons/ai'
+import EditComment from './EditComment'
 
 const Comment = () => {
     const params = useParams()
@@ -16,6 +17,8 @@ const Comment = () => {
     const context = useContext(contextAPI)
     const commentRef = useRef()
     const navigate = useNavigate()
+    const [editToggle, setEditToggle] = useState(false)
+    const [activeCommentId, setActiveCommentId] = useState("")
 
     const addNewComment = () => {
         const payload = {
@@ -35,11 +38,27 @@ const Comment = () => {
         }
     }
 
-    const editHandler = (e) => { 
-        // console.log(e.target.value)
+    const deleteHandler = (e) => {
+        const id = e.target.value
+        axios.delete(`${API}/comment/${id}`)
+            .then((res) => {
+                if (res.status === 200) {
+                    alert('Deleted')
+                }
+                else {
+                    alert('Something Error')
+                }
+            })
     }
 
-    const deleteHandler = () => { }
+    const editHandler = (e) => {
+        setActiveCommentId(e.target.value)
+        setEditToggle(!editToggle)
+    }
+
+    const saveEdits = (e) => {
+        setEditToggle(!editToggle)
+    }
 
     const goBackHandler = () => {
         navigate(-1)
@@ -69,29 +88,35 @@ const Comment = () => {
                         <h2 className='p-4'>{constants.comments}</h2>
                         {
                             commentsData ? commentsData.map((comm) => {
-                                return (<div className='w-50 p-3 ms-3 d-flex b-2 mb-4' key={comm._id}>
-                                    <div className='w-75'>
-                                        <div className='pt-1'>
-                                            <h6>{comm.commentByName}</h6>
+                                return (<div className='w-50 p-3 ms-3 b-2 mb-4' key={comm._id}>
+                                    <div className='d-flex'>
+                                        <div className='w-75'>
+                                            <div className='pt-1'>
+                                                <h6>{comm.commentByName}</h6>
+                                            </div>
+                                            <div className='ps-3'>
+                                                {comm.commentBody}
+                                            </div>
                                         </div>
-                                        <div className='ps-3'>
-                                            {comm.commentBody}
-                                        </div>
+                                        {
+                                            comm.commentBy === context.email ?
+                                                <div className='text-end p-2 d-flex'>
+                                                    <button className='btn btn-warning' value={comm._id} onClick={editHandler}>
+                                                        {constants.edit}<BiEdit className='mb-1 h5 icons' />
+                                                    </button>
+                                                    <button className='btn btn-danger ms-2' value={comm._id} onClick={deleteHandler}>
+                                                        {constants.delete}<AiFillDelete className='mb-1 h5 icons' />
+                                                    </button>
+                                                </div>
+                                                : null
+                                        }
                                     </div>
                                     {
-                                        comm.commentBy === context.email ?
-                                            <div className='text-end p-2 d-flex'>
-                                                <button className='btn btn-warning' value={comm._id} onClick={editHandler}>
-                                                    <BiEdit className='mb-1 h5 icons' />
-                                                </button>
-                                                <button className='btn btn-danger ms-2' value={comm._id} onClick={deleteHandler}>
-                                                    <AiFillDelete className='mb-1 h5 icons' />
-                                                </button>
-                                            </div>
+                                        editToggle && activeCommentId === comm._id ?
+                                            <EditComment saveEdits={saveEdits} commentBody={comm.commentBody} id={comm._id} />
                                             : null
                                     }
                                 </div>)
-
                             }) : <div className='ps-5'> {constants.loading} </div>
                         }
                     </div>
@@ -104,6 +129,7 @@ const Comment = () => {
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>

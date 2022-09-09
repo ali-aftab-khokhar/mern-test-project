@@ -28,4 +28,16 @@ app.route('/:id/comments')
     })
 })
 
+app.route('/comment/:id')
+.delete(async (req, res) => {
+    await Comment.findByIdAndDelete(req.params.id)
+    res.status(200).send('Deleted')
+})
+.put(async (req, res) => {
+    await Comment.findByIdAndUpdate(req.params.id, {
+        commentBody: req.body.updatedComment
+    })
+    res.status(200).send('Updated')
+})
+
 module.exports = app
