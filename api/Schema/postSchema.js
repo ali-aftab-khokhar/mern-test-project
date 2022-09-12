@@ -3,8 +3,14 @@ const Users = require('./userSchema')
 
 const postSchema = new mongoose.Schema({
     ownerName: String,
-    title: String,
-    body: String,
+    title: {
+        type: String,
+        required: [true, 'Please add title']
+    },
+    body: {
+        type: String,
+        required: [true, 'Please add body']
+    },
     ownerEmail: String
 })
 

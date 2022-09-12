@@ -1,7 +1,10 @@
 const mongoose = require('mongoose')
 
 const commentSchema = new mongoose.Schema({
-    commentBody: String,
+    commentBody: {
+        type: String,
+        required: [true, 'Please add comment']
+    },
     commentBy: String,
     commentOn: String,
     commentByName: String

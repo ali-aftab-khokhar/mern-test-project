@@ -1,15 +1,16 @@
+require('dotenv').config()
 const express = require('express');
 const bodyParser = require('body-parser');
+const PORT = process.env.PORT
 const cors = require("cors");
 const app = express();
-const port = process.env.PORT || 5000;
 const mongoose = require('mongoose');
 const userController = require('../controllers/userController');
 const postController = require('../controllers/postController');
 const commentController = require('../controllers/commentController');
 
 //Connection established between MongoDB and Script.js using Mongoose
-mongoose.connect('mongodb://localhost:27017/mern-test-project',
+mongoose.connect(process.env.DB,
     () => { console.log("Connected to database") },
     (err) => { console.log(err) })
 
@@ -21,4 +22,4 @@ app.use(userController);
 app.use(postController);
 app.use(commentController);
 
-app.listen(port, () => console.log(`Listening on port ${port}`));
+app.listen(PORT, () => console.log(`Listening on port ${PORT}`));

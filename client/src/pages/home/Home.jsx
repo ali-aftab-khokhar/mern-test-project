@@ -1,7 +1,7 @@
 import React, { useContext, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import constants from '../../constants'
-import Header from '../Header/Header'
+import Header from '../../component/Header/Header'
 import axios from 'axios'
 import API from '../../api_config'
 import contextAPI from '../../contextState/contextAPI'
@@ -26,10 +26,9 @@ const Home = () => {
         axios.post(`${API}/`, payload)
             .then((res) => {
                 if (res.status === 200) {
-                    context.name = res.data[0].name
-                    context.email = res.data[0].email
-                    context.id = res.data[0]._id
-                    context.posts = res.data[0].posts
+                    context.name = res.data.name
+                    context.email = res.data.email
+                    context.id = res.data._id
                     alert('Logged In')
                     navigate('/posts')
                 }

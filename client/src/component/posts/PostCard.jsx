@@ -1,6 +1,5 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import constants from '../../constants'
-import contextAPI from '../../contextState/contextAPI'
 import EditPost from './EditPost'
 import { FaComments } from 'react-icons/fa'
 import { BiEdit } from 'react-icons/bi'
@@ -9,7 +8,6 @@ import './Icon.css'
 import { useNavigate } from 'react-router-dom'
 
 const PostCard = (props) => {
-    const context = useContext(contextAPI)
     const navigate = useNavigate()
     const [editToggle, setEditToggle] = useState(false)
     const [activePostId, setActivePostId] = useState("")

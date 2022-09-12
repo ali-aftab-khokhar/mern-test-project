@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express();
 const Post = require('../Schema/postSchema')
+const { protect } = require('../middleware/authMiddleware')
 
 app.route('/posts')
 .get((req, res) => {

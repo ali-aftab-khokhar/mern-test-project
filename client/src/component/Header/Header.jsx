@@ -1,5 +1,4 @@
 import React from 'react'
-import constants from '../../constants'
 
 const Header = (props) => {
   return (

@@ -1,29 +1,29 @@
 import axios from 'axios'
-import React, { useRef, useState, useContext, useEffect } from 'react'
+import React, { useState, useContext } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import constants from '../../constants'
 import contextAPI from '../../contextState/contextAPI'
-import Header from '../Header/Header'
+import Header from '../../component/Header/Header'
 import API from '../../api_config'
 import useFetch from '../../api_hooks/useFetch'
 import { BiEdit } from 'react-icons/bi'
 import { AiFillDelete } from 'react-icons/ai'
-import EditComment from './EditComment'
+import EditComment from '../../component/comment/EditComment'
+import AddNewComment from '../../component/comment/AddNewComment'
 
 const Comment = () => {
     const params = useParams()
     const [commentsData] = useFetch(`${params.id}/comments`)
     const [post] = useFetch(`post/${params.id}/comments`)
     const context = useContext(contextAPI)
-    const commentRef = useRef()
     const navigate = useNavigate()
     const [editToggle, setEditToggle] = useState(false)
     const [activeCommentId, setActiveCommentId] = useState("")
 
-    const addNewComment = () => {
+    const addNewComment = (body, email) => {
         const payload = {
-            commentBody: commentRef.current.value,
-            commentBy: context.email
+            commentBody: body,
+            commentBy: email
         }
         if (context.email) {
             axios.post(`${API}/${params.id}/comments`, payload)
@@ -121,14 +121,11 @@ const Comment = () => {
                         }
                     </div>
 
-                    <div className='mb-4 w-75 ms-4 mb-3'>
-                        <div className="input-group">
-                            <input type="text" className="form-control" ref={commentRef} placeholder={constants.add_new_comment} />
-                            <div className="input-group-prepend">
-                                <button className="input-group-text" id="inputGroupPrepend2" onClick={addNewComment}>{constants.publish_the_comment}</button>
-                            </div>
-                        </div>
-                    </div>
+                    {
+                        context.email ?
+                            <AddNewComment addNewComment={addNewComment} />
+                            : null
+                    }
 
                 </div>
             </div>

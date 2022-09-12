@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import constants from '../../constants'
-import Header from '../Header/Header'
+import Header from '../../component/Header/Header'
 import API from '../../api_config'
 import axios from 'axios'
 

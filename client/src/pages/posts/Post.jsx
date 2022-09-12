@@ -1,15 +1,14 @@
 import axios from 'axios'
-import React, { useRef, useState, useContext, useEffect, useCallback } from 'react'
+import React, { useRef, useState, useContext } from 'react'
 import { AiOutlineArrowRight, AiOutlinePlus } from 'react-icons/ai'
 import { ImCancelCircle } from 'react-icons/im'
 import constants from '../../constants'
 import contextAPI from '../../contextState/contextAPI'
-import Header from '../Header/Header'
+import Header from '../../component/Header/Header'
 import API from '../../api_config'
 import useFetch from '../../api_hooks/useFetch'
-import './Icon.css'
 import { useNavigate } from 'react-router-dom'
-import PostCard from '../Posts/PostCard'
+import PostCard from '../../component/posts/PostCard'
 
 const Post = () => {
     const [data] = useFetch('posts')
