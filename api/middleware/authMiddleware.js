@@ -1,28 +1,26 @@
 const jwt = require('jsonwebtoken')
 const asyncHandler = require('express-async-handler')
-const User = require('../Schema/userSchema')
+const User = require('../schema/userSchema')
+const constants = require('../constants')
 
 const protect = asyncHandler(async (req, res, next) => {
     let token
-    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')){
+    if (req.headers.authorization && req.headers.authorization.startsWith(constants.bearer)){
         try {
-            //Getting token from header
             token = req.headers.authorization.split(' ')[1]
-            //Verify token
             const decoded = jwt.verify(token, process.env.JWT_SECRET)
-            //Get token from user
-            req.user = await User.findById(decoded.id).select('-password')
+            req.user = await User.findById(decoded.id).select(constants.minus_password)
             next()
         } catch (err) {
             console.log(err)
             res.status(401)
-            throw new Error('Not Authorized')
+            throw new Error(constants.not_authorized)
         }
     }
 
     if (!token){
         res.status(401)
-        throw new Error('Not authorized, no token')
+        throw new Error(constants.not_auth_no_token)
     }
 })
 

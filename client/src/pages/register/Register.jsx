@@ -2,15 +2,13 @@ import React, { useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import constants from '../../constants'
 import Header from '../../component/Header/Header'
-import API from '../../api_config'
-import axios from 'axios'
+import postService from '../../services/postMethod'
 
 const Register = () => {
     const emailRef = useRef(null)
     const passwordRef = useRef(null)
     const confirmPasswordRef = useRef(null)
     const nameRef = useRef(null)
-    // const [payload, setPayload] = useState({})
     const navigate = useNavigate()
 
     const toLoginPage = () => {
@@ -24,18 +22,9 @@ const Register = () => {
             email: emailRef.current.value,
             password: passwordRef.current.value
         }
-        // registerUser()
         if (passwordRef.current.value === confirmPasswordRef.current.value) {
-            axios.post(`${API}/register`, payload)
-                .then((res) => {
-                    if (res.status === 200) {
-                        alert('User Added')
-                        navigate('/')
-                    }
-                    else {
-                        alert('Something Error')
-                    }
-                })
+            postService(payload, 'User Added', 'register')
+            navigate('/')
         }
     }
 

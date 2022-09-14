@@ -1,21 +1,22 @@
-import axios from 'axios'
 import React, { useState, useContext } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import constants from '../../constants'
 import contextAPI from '../../contextState/contextAPI'
 import Header from '../../component/Header/Header'
-import API from '../../api_config'
 import useFetch from '../../api_hooks/useFetch'
 import { BiEdit } from 'react-icons/bi'
 import { AiFillDelete } from 'react-icons/ai'
 import EditComment from '../../component/comment/EditComment'
 import AddNewComment from '../../component/comment/AddNewComment'
+import postService from '../../services/postMethod'
+import deleteService from '../../services/deleteMethod'
 
 const Comment = () => {
     const params = useParams()
     const [commentsData] = useFetch(`${params.id}/comments`)
     const [post] = useFetch(`post/${params.id}/comments`)
     const context = useContext(contextAPI)
+    const [isLoggedIn] = useState(context.isLoggedIn)
     const navigate = useNavigate()
     const [editToggle, setEditToggle] = useState(false)
     const [activeCommentId, setActiveCommentId] = useState("")
@@ -25,30 +26,14 @@ const Comment = () => {
             commentBody: body,
             commentBy: email
         }
-        if (context.email) {
-            axios.post(`${API}/${params.id}/comments`, payload)
-                .then((res) => {
-                    if (res.status === 200) {
-                        alert('Commented')
-                    }
-                    else {
-                        alert('Something Error')
-                    }
-                })
+        if (isLoggedIn.email) {
+            postService(payload, 'Commented', `${params.id}/comments`)
         }
     }
 
     const deleteHandler = (e) => {
         const id = e.target.value
-        axios.delete(`${API}/comment/${id}`)
-            .then((res) => {
-                if (res.status === 200) {
-                    alert('Deleted')
-                }
-                else {
-                    alert('Something Error')
-                }
-            })
+        deleteService(`comment/${id}`)
     }
 
     const editHandler = (e) => {
@@ -99,7 +84,7 @@ const Comment = () => {
                                             </div>
                                         </div>
                                         {
-                                            comm.commentBy === context.email ?
+                                            comm.commentBy === isLoggedIn.email ?
                                                 <div className='text-end p-2 d-flex'>
                                                     <button className='btn btn-warning' value={comm._id} onClick={editHandler}>
                                                         {constants.edit}<BiEdit className='mb-1 h5 icons' />
@@ -122,7 +107,7 @@ const Comment = () => {
                     </div>
 
                     {
-                        context.email ?
+                        isLoggedIn.email ?
                             <AddNewComment addNewComment={addNewComment} />
                             : null
                     }
