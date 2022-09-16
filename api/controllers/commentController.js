@@ -3,42 +3,37 @@ const app = express();
 const Comment = require('../schema/commentSchema')
 const User = require('../schema/userSchema')
 const constants = require('../constants')
+const CommentServices = require('../services/commentServices')
 
 const getAllComments = async (req, res) => {
-    Comment.find({ commentOn: req.params.id }, function(err, doc) {
-        if (err) {
-            res.status(400).send(constants.something_went_wrong)
-        }
-        res.json(doc)
-    })
+    CommentServices.getCommentsService(req, res)
 }
 
 const addNewComment = async (req, res) => {
-    User.find({ email: req.body.commentBy }, function(err, doc){
-        if (err){
-            res.status(400).send(constants.something_went_wrong)
-        }
-        const commentDetails = new Comment({
-            commentBody: req.body.commentBody,
-            commentBy: req.body.commentBy,
-            commentOn: req.params.id,
-            commentByName: doc[0].name
-        })
-        commentDetails.save()
+    try {
+        CommentServices.addCommentService(req, res)
         res.status(200).send(constants.commented)
-    })
+    } catch {
+        res.status(400).send(constants.something_went_wrong)
+    }
 }
 
 const deleteTheComment = async (req, res) => {
-    await Comment.findByIdAndDelete(req.params.id)
-    res.status(200).send(constants.deleted)
+    try {
+        CommentServices.deleteCommentService(req, res)
+        res.status(200).send(constants.deleted)
+    } catch {
+        res.status(400).send(constants.something_went_wrong)
+    }
 }
 
 const editTheComment = async (req, res) => {
-    await Comment.findByIdAndUpdate(req.params.id, {
-        commentBody: req.body.updatedComment
-    })
-    res.status(200).send(constants.updated)
+    try {
+        CommentServices.editCommentService(req, res)
+        res.status(200).send(constants.updated)
+    } catch {
+        res.status(400).send(constants.something_went_wrong)
+    }
 }
 
 module.exports = {
