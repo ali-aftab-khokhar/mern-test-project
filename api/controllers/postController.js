@@ -15,10 +15,10 @@ const getAllPosts = async (req, res) => {
 
 const addNewPost = async (req, res) => {
     const postDetails = new Post({
-        ownerName: req.body.name,
+        ownerName: req.body.ownerName,
         title: req.body.title,
         body: req.body.body,
-        ownerEmail: req.body.email
+        ownerEmail: req.body.ownerEmail
     })
     postDetails.save()
     res.status(200).send(constants.posted)
