@@ -1,11 +1,11 @@
 const express = require('express')
 const app = express();
-const User = require('../Schema/userSchema')
+const User = require('../schema/userSchema')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
+const constants = require('../constants')
 
-//Login
-app.post('/', async (req, res) => {
+const login = async (req, res) => {
     const { email, password } = req.body
     const user = await User.findOne({ email })
     if (user && (await bcrypt.compare(password, user.password))) {
@@ -18,21 +18,20 @@ app.post('/', async (req, res) => {
         })
     } else {
         res.status(400)
-        throw new Error('Incorrect email or password')
+        throw new Error(constants.incorrect_email_or_password)
     }
-})
+}
 
-//Register a new user
-app.post('/register', async (req, res) => {
+const register = async (req, res) => {
     const { name, email, password } = req.body
     if (!name || !email || !password) {
         res.status(400)
-        throw new Error('Please add all fields')
+        throw new Error(constants.add_all_fields)
     }
     const userExists = await User.findOne({ email })
     if (userExists) {
         res.status(400)
-        throw new Error('User already exists')
+        throw new Error(constants.user_already_exists)
     }
     const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(req.body.password, salt)
@@ -50,9 +49,14 @@ app.post('/register', async (req, res) => {
         })
     } else {
         res.status(400)
-        throw new Error('Invalid user data')
+        throw new Error(constants.invalid_user_data)
     }
-});
+}
+
+//Register a new user
+// app.post('/register', async (req, res) => {
+    
+// });
 
 const generateToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -60,4 +64,7 @@ const generateToken = (id) => {
     })
 }
 
-module.exports = app
+module.exports = {
+    login,
+    register
+}

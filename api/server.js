@@ -5,9 +5,9 @@ const PORT = process.env.PORT
 const cors = require("cors");
 const app = express();
 const mongoose = require('mongoose');
-const userController = require('../controllers/userController');
-const postController = require('../controllers/postController');
-const commentController = require('../controllers/commentController');
+const userRoute = require('./routes/userRoutes')
+const postRoute = require('./routes/postsRoutes')
+const commentRoute = require('./routes/commentRoutes')
 
 //Connection established between MongoDB and Script.js using Mongoose
 mongoose.connect(process.env.DB,
@@ -18,8 +18,8 @@ mongoose.connect(process.env.DB,
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
-app.use(userController);
-app.use(postController);
-app.use(commentController);
+app.use(userRoute)
+app.use(postRoute)
+app.use(commentRoute);
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));

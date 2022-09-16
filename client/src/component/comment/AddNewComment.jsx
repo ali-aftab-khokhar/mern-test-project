@@ -7,7 +7,7 @@ const AddNewComment = (props) => {
     const context = useContext(contextAPI)
 
     const addNewComment = () => {
-        props.addNewComment(commentRef.current.value, context.email)
+        props.addNewComment(commentRef.current.value, context.isLoggedIn.email)
     }
 
     return (

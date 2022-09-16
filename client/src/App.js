@@ -5,11 +5,13 @@ import Register from './pages/register/Register'
 import Post from './pages/posts/Post';
 import Comment from './pages/comments/Comments';
 import NotFound from './pages/notFound/NotFound';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
 
   return (
     <div className='App-header'>
+      <ToastContainer />
       <ContextState>
         <Router>
           <Routes>

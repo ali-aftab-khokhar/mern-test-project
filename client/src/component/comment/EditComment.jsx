@@ -1,16 +1,16 @@
 import React, { useRef } from 'react'
 import constants from '../../constants'
-import axios from 'axios'
-import API from '../../api_config'
+import putService from '../../services/putMethod'
 
 const EditComment = (props) => {
 const commentRef = useRef()
 
 const saveEdits = (e) => {
+    const id = e.target.value
     const payload = {
         updatedComment: commentRef.current.value
     }
-    axios.put(`${API}/comment/${e.target.value}`, payload)
+    putService(payload, 'Updated', `comment/${id}`)
     props.saveEdits()
 }
 

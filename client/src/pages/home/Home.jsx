@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import constants from '../../constants'
 import Header from '../../component/Header/Header'
 import axios from 'axios'
-import API from '../../api_config'
 import contextAPI from '../../contextState/contextAPI'
+import { toast } from 'react-toastify';
 
 const Home = () => {
     const emailRef = useRef(null)
@@ -22,18 +22,15 @@ const Home = () => {
             email: emailRef.current.value,
             password: passwordRef.current.value
         }
-        // registerUser()
-        axios.post(`${API}/`, payload)
+        axios.post(`/`, payload)
             .then((res) => {
                 if (res.status === 200) {
-                    context.name = res.data.name
-                    context.email = res.data.email
-                    context.id = res.data._id
-                    alert('Logged In')
+                    context.login(res.data.name, res.data.email, res.data._id)
+                    toast.success('Logged In')
                     navigate('/posts')
                 }
                 else {
-                    alert('Something Error')
+                    toast.warning('Something Error')
                 }
             })
     }

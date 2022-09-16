@@ -1,9 +1,8 @@
-import axios from 'axios'
 import React, { useRef } from 'react'
 import constants from '../../constants'
-import API from '../../api_config'
 import './Icon.css'
 import { BsCheckLg } from 'react-icons/bs'
+import putService from '../../services/putMethod'
 
 const EditPost = (props) => {
     const postTitleRef = useRef()
@@ -14,7 +13,7 @@ const EditPost = (props) => {
             title: postTitleRef.current.value,
             body: postBodyRef.current.value
         }
-        axios.put(`${API}/posts/${e.target.value}`, payload)
+        putService(payload, 'Updated', `posts/${e.target.value}`)
         props.saveEdits()
     }
 
