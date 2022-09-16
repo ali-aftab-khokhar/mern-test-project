@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import constants from '../../constants'
 import './Icon.css'
 import { BsCheckLg } from 'react-icons/bs'
