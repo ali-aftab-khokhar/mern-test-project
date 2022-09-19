@@ -20,7 +20,17 @@ const constants = {
     enter_comment: 'Please add comment',
     comments: 'comments',
     posts: 'posts',
-    users: 'users'
+    users: 'users',
+    cant_get_individual_post: 'Cant get single post',
+    edit_failed: 'Edit Failed',
+    deletion_failed: 'Deletion Failed',
+    publish_new_post_failed: 'Cant publish new post',
+    publish_new_comment_failed: 'Cant publish new comment',
+    login_failed: 'Login failed',
+    signup_failed: 'Signup failed',
+    profile_data_failed: 'Profile data loading failed',
+    post_fetch_failed: 'Cant fetch all posts',
+    comments_fetch_failed: 'Cant fetch all comments'
 }
 
 module.exports = constants

@@ -27,7 +27,7 @@ const addNewPostService = async (ownerName, ownerEmail, title, body, res) => {
         })
         await postDetails.save()
     } catch {
-        res.status(400).send(constants.something_went_wrong)
+        res.status(400).send(constants.publish_new_post_failed)
     }
 }
 
@@ -35,7 +35,7 @@ const deletePostService = async (id, res) => {
     try {
         await Post.findByIdAndDelete(id)
     } catch {
-        res.status(400).send(constants.something_went_wrong)
+        res.status(400).send(constants.deletion_failed)
     }
 }
 
@@ -46,7 +46,7 @@ const editPostService = async (id, title, body, res) => {
             body: body
         })
     } catch {
-        res.status(400).send(constants.something_went_wrong)
+        res.status(400).send(constants.edit_failed)
     }
 }
 
@@ -59,11 +59,11 @@ const getOnePostService = async (req, res) => {
             }
         })
     } catch {
-        res.status(400).send(constants.something_went_wrong)
+        res.status(400).send(constants.cant_get_individual_post)
     }
 }
 
-const getProfileData = async (id, res) => {
+const getProfileDataService = async (id, res) => {
     try {
         await User.findOne({ _id: id }, function (err, doc) {
             if (!err) {
@@ -80,4 +80,4 @@ const getProfileData = async (id, res) => {
     }
 }
 
-module.exports = { getPostsService, addNewPostService, deletePostService, editPostService, getOnePostService, getProfileData }
+module.exports = { getPostsService, addNewPostService, deletePostService, editPostService, getOnePostService, getProfileDataService }
