@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import constants from '../../constants'
 import EditPost from './EditPost'
 import { FaComments } from 'react-icons/fa'
@@ -6,9 +6,11 @@ import { BiEdit } from 'react-icons/bi'
 import { AiFillDelete } from 'react-icons/ai'
 import './Icon.css'
 import { useNavigate } from 'react-router-dom'
+import ContextAPI from '../../contextState/contextAPI'
 
 const PostCard = (props) => {
     const navigate = useNavigate()
+    const context = useContext(ContextAPI)
     const [editToggle, setEditToggle] = useState(false)
     const [activePostId, setActivePostId] = useState("")
 
@@ -25,6 +27,10 @@ const PostCard = (props) => {
         setEditToggle(!editToggle)
     }
 
+    const loginFirst = () => {
+        navigate('/')
+    }
+
     return (
         <div className='justify-content-center w-100'>
             {
@@ -36,9 +42,18 @@ const PostCard = (props) => {
                                 <h3 className='card-title'>{post.ownerName}</h3>
                                 <h5 className="card-text">{post.title}</h5>
                                 <p className="card-text">{post.body}</p>
-                                <button className="btn btn-dark" value={post._id} onClick={openComments}>
-                                    {constants.comments}<FaComments className='ms-2 mb-0 h5 icons' />
-                                </button>
+                                {
+                                    context.isLoggedIn.email ?
+                                        <button className="btn btn-dark" value={post._id} onClick={openComments}>
+                                            {constants.comments}<FaComments className='ms-2 mb-0 h5 icons' />
+                                        </button>
+                                        : <div>
+                                        <button className="btn btn-dark" value={post._id} onClick={loginFirst}>
+                                            {constants.loginFirst}
+                                        </button>
+                                        </div>
+                                }
+
                             </div>
                             {
                                 props.currentUser.email === post.ownerEmail ?
