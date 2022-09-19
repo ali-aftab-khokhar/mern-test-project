@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import constants from '../../constants'
 import contextAPI from '../../contextState/contextAPI'
@@ -13,6 +13,7 @@ import deleteService from '../../services/deleteMethod'
 
 const Comment = () => {
     const params = useParams()
+    const [status, forceUpdate] = useState(false)
     const [commentsData] = useFetch(`${params.id}/comments`)
     const [post] = useFetch(`post/${params.id}/comments`)
     const context = useContext(contextAPI)
@@ -21,19 +22,27 @@ const Comment = () => {
     const [editToggle, setEditToggle] = useState(false)
     const [activeCommentId, setActiveCommentId] = useState("")
 
+    useEffect(() => { }, [commentsData, status])
+
     const addNewComment = (body, email) => {
         const payload = {
             commentBody: body,
-            commentBy: email
+            commentBy: email,
+            _id: commentsData.length
         }
         if (isLoggedIn.email) {
             postService(payload, 'Commented', `${params.id}/comments`)
         }
+        forceUpdate(!status)
+        commentsData.push(payload)
     }
 
     const deleteHandler = (e) => {
         const id = e.target.value
         deleteService(`comment/${id}`)
+        const indexOfObject = commentsData.findIndex(obj => { return obj._id === id; });
+        commentsData.splice(indexOfObject, 1)
+        forceUpdate(!status)
     }
 
     const editHandler = (e) => {

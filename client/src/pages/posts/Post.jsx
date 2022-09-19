@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import constants from '../../constants'
 import contextAPI from '../../contextState/contextAPI'
 import Header from '../../component/Header/Header'
@@ -12,9 +12,12 @@ import deleteService from '../../services/deleteMethod'
 
 const Post = () => {
     const [data] = useFetch('posts')
+    const [status, forceUpdate] = useState(false)
     const context = useContext(contextAPI)
     const [isLoggedIn] = useState(context.isLoggedIn)
     const navigate = useNavigate()
+
+    useEffect(() => { }, [data, status])
 
     const logoutHandle = () => {
         context.logout()
@@ -25,18 +28,23 @@ const Post = () => {
     const deleteThePost = (e) => {
         const id = e.target.value
         deleteService(`posts/${id}`)
+        const indexOfObject = data.findIndex(obj => { return obj._id === id; });
+        data.splice(indexOfObject, 1)
+        forceUpdate(!status)
     }
 
     const publishPost = (title, body) => {
         const payload = {
             title: title,
             body: body,
-            email: isLoggedIn.email,
-            name: isLoggedIn.name
+            ownerEmail: isLoggedIn.email,
+            ownerName: isLoggedIn.name
         }
-        if (payload.email) {
+        if (payload.ownerEmail) {
             postService(payload, 'Posted', 'posts')
         }
+        forceUpdate(!status)
+        data.push(payload)
     }
 
     const loginHandle = () => {

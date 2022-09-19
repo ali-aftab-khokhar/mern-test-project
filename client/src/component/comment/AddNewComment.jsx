@@ -8,6 +8,7 @@ const AddNewComment = (props) => {
 
     const addNewComment = () => {
         props.addNewComment(commentRef.current.value, context.isLoggedIn.email)
+        commentRef.current.value = ''
     }
 
     return (

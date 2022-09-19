@@ -1,49 +1,44 @@
-const express = require('express')
-const app = express();
-const Post = require('../schema/postSchema')
 const constants = require('../constants')
+const PostServices = require('../services/postServices')
 
 const getAllPosts = async (req, res) => {
-    Post.find({}, function (err, doc) {
-        if (err) {
-            res.send(constants.something_went_wrong)
-            next()
-        }
-        res.json(doc)
-    })
+    try {
+        await PostServices.getPostsService(res)
+    } catch {
+        res.status(400).send(constants.something_went_wrong)
+    }
 }
 
 const addNewPost = async (req, res) => {
-    const postDetails = new Post({
-        ownerName: req.body.name,
-        title: req.body.title,
-        body: req.body.body,
-        ownerEmail: req.body.email
-    })
-    postDetails.save()
-    res.status(200).send(constants.posted)
+    const { ownerName, ownerEmail, title, body } = req.body
+    try {
+        PostServices.addNewPostService(ownerName, ownerEmail, title, body, res)
+        res.status(200).send(constants.posted)
+    } catch {
+        res.status(400).send(constants.something_went_wrong)
+    }
 }
 
 const deleteThePost = async (req, res) => {
-    await Post.findByIdAndDelete(req.params.id)
-    res.status(200).send(constants.deleted)
+    try {
+        PostServices.deletePostService(req.params.id, res)
+        res.status(200).send(constants.posted)
+    } catch {
+        res.status(400).send(constants.something_went_wrong)
+    }
 }
 
 const editThePost = async (req, res) => {
-    await Post.findByIdAndUpdate(req.params.id, {
-        title: req.body.title,
-        body: req.body.body
-    })
-    res.status(200).send(constants.updated)
+    try {
+        PostServices.editPostService(req.params.id, req.body.title, req.body.body, res)
+        res.status(200).send(constants.posted)
+    } catch {
+        res.status(400).send(constants.something_went_wrong)
+    }
 }
 
 const getOnePost = async (req, res) => {
-    Post.find({ _id: req.params.id }, function (err, doc) {
-        if (err) {
-            res.send(constants.something_went_wrong)
-        }
-        res.json(doc)
-    })
+    PostServices.getOnePostService(req.params.id, res)
 }
 
 module.exports = {
