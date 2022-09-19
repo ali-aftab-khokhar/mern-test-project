@@ -1,14 +1,18 @@
-const express = require('express')
 const constants = require('../constants')
 const PostServices = require('../services/postServices')
 
-const getAllPosts = (req, res) => {
-    PostServices.getPostsService(req, res)
+const getAllPosts = async (req, res) => {
+    try {
+        await PostServices.getPostsService(res)
+    } catch {
+        res.status(400).send(constants.something_went_wrong)
+    }
 }
 
 const addNewPost = async (req, res) => {
+    const { ownerName, ownerEmail, title, body } = req.body
     try {
-        PostServices.addNewPostService(req, res)
+        PostServices.addNewPostService(ownerName, ownerEmail, title, body, res)
         res.status(200).send(constants.posted)
     } catch {
         res.status(400).send(constants.something_went_wrong)
@@ -17,7 +21,7 @@ const addNewPost = async (req, res) => {
 
 const deleteThePost = async (req, res) => {
     try {
-        PostServices.deletePostService(req, res)
+        PostServices.deletePostService(req.params.id, res)
         res.status(200).send(constants.posted)
     } catch {
         res.status(400).send(constants.something_went_wrong)
@@ -26,7 +30,7 @@ const deleteThePost = async (req, res) => {
 
 const editThePost = async (req, res) => {
     try {
-        PostServices.editPostService(req, res)
+        PostServices.editPostService(req.params.id, req.body.title, req.body.body, res)
         res.status(200).send(constants.posted)
     } catch {
         res.status(400).send(constants.something_went_wrong)
@@ -34,7 +38,7 @@ const editThePost = async (req, res) => {
 }
 
 const getOnePost = async (req, res) => {
-    PostServices.getOnePostService(req, res)
+    PostServices.getOnePostService(req.params.id, res)
 }
 
 module.exports = {

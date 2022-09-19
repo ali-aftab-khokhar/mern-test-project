@@ -3,7 +3,7 @@ const UserServices = require('../services/userServices')
 
 const login = async (req, res) => {
     try {
-        UserServices.loginService(req, res)
+        await UserServices.loginService(req, res)
     } catch {
         res.status(400).send(constants.something_went_wrong)
     }
@@ -11,7 +11,7 @@ const login = async (req, res) => {
 
 const register = async (req, res) => {
     try {
-        UserServices.registerService(req, res)
+        await UserServices.registerService(req, res)
     } catch {
         res.status(400).send(constants.something_went_wrong)
     }

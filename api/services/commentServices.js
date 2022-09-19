@@ -4,9 +4,9 @@ const Comment = require('../schema/commentSchema')
 const User = require('../schema/userSchema')
 const constants = require('../constants')
 
-const getCommentsService = async (req, res) => {
+const getCommentsService = async (id, res) => {
     try {
-        await Comment.find({ commentOn: req.params.id }, function (err, doc) {
+        await Comment.find({ commentOn: id }, function (err, doc) {
             res.status(200)
             res.json(doc)
         })
@@ -16,16 +16,16 @@ const getCommentsService = async (req, res) => {
 
 }
 
-const addCommentService = async (req, res) => {
+const addCommentService = async (payload, res) => {
     try {
-        User.find({ email: req.body.commentBy }, function (err, doc) {
+        User.find({ email: payload.commentBy }, function (err, doc) {
             if (err) {
                 res.status(400).send(constants.something_went_wrong)
             }
             const commentDetails = new Comment({
-                commentBody: req.body.commentBody,
-                commentBy: req.body.commentBy,
-                commentOn: req.params.id,
+                commentBody: payload.commentBody,
+                commentBy: payload.commentBy,
+                commentOn: payload.commentOn,
                 commentByName: doc[0].name
             })
             commentDetails.save()
@@ -35,18 +35,19 @@ const addCommentService = async (req, res) => {
     }
 }
 
-const deleteCommentService = async (req, res) => {
+const deleteCommentService = async (id, res) => {
     try {
-        await Comment.findByIdAndDelete(req.params.id)
+        await Comment.findByIdAndDelete(id)
     } catch {
         res.status(400).send(constants.something_went_wrong)
     }
 }
 
-const editCommentService = async (req, res) => {
+const editCommentService = async (id, body, res) => {
     try {
-        await Comment.findByIdAndUpdate(req.params.id, {
-            commentBody: req.body.updatedComment
+        console.log(body)
+        await Comment.findByIdAndUpdate(id, {
+            commentBody: body
         })
     } catch {
         res.status(400).send(constants.something_went_wrong)
