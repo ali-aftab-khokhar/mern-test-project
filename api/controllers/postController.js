@@ -47,7 +47,7 @@ const getOnePost = async (req, res) => {
 
 const getProfile = async (req, res) => {
     try {
-        PostServices.getProfileData(req.params.id, res) 
+        PostServices.getProfileDataService(req.params.id, res) 
     } catch {
         res.status(400).send(constants.something_went_wrong)
     }
