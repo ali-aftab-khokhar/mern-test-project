@@ -38,7 +38,19 @@ const editThePost = async (req, res) => {
 }
 
 const getOnePost = async (req, res) => {
-    PostServices.getOnePostService(req.params.id, res)
+    try {
+        PostServices.getOnePostService(req, res)
+    } catch {
+        res.status(400).send(constants.something_went_wrong)
+    }
+}
+
+const getProfile = async (req, res) => {
+    try {
+        PostServices.getProfileData(req.params.id, res) 
+    } catch {
+        res.status(400).send(constants.something_went_wrong)
+    }
 }
 
 module.exports = {
@@ -46,5 +58,6 @@ module.exports = {
     addNewPost,
     deleteThePost,
     editThePost,
-    getOnePost
+    getOnePost,
+    getProfile
 }

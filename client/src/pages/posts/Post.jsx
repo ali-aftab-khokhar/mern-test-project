@@ -53,7 +53,7 @@ const Post = () => {
 
     return (
         <div>
-            <Header header={constants.posts} />
+            <Header header={constants.posts} profile={constants.my_profile}/>
             <div>
                 {
                     isLoggedIn.email ?

@@ -7,8 +7,10 @@ const constants = require('../constants')
 const getCommentsService = async (id, res) => {
     try {
         await Comment.find({ commentOn: id }, function (err, doc) {
-            res.status(200)
-            res.json(doc)
+            if (!err) {
+                res.status(200)
+                res.json(doc)
+            }
         })
     } catch {
         res.status(400)

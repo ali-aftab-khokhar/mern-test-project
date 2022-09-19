@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express();
-const { getAllPosts, addNewPost, deleteThePost, editThePost, getOnePost } = require('../controllers/postController')
+const { getAllPosts, addNewPost, deleteThePost, editThePost, getOnePost, getProfile } = require('../controllers/postController')
 
 app.route('/posts')
 .get(getAllPosts)
@@ -11,5 +11,7 @@ app.route('/posts/:id')
 .put(editThePost)
 
 app.get('/post/:id/comments', getOnePost)
+
+app.get('/profile/:id', getProfile)
 
 module.exports = app
