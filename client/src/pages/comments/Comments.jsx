@@ -4,12 +4,12 @@ import constants from '../../constants'
 import contextAPI from '../../contextState/contextAPI'
 import Header from '../../component/Header/Header'
 import useFetch from '../../api_hooks/useFetch'
-import { BiEdit } from 'react-icons/bi'
-import { AiFillDelete } from 'react-icons/ai'
 import EditComment from '../../component/comment/EditComment'
 import AddNewComment from '../../component/comment/AddNewComment'
 import postService from '../../services/postMethod'
 import deleteService from '../../services/deleteMethod'
+import EnableButtons from '../../component/comment/EnableButtons'
+import DisabledButtons from '../../component/comment/DisabledButtons'
 
 const Comment = () => {
     const params = useParams()
@@ -95,12 +95,11 @@ const Comment = () => {
                                         {
                                             comm.commentBy === isLoggedIn.email ?
                                                 <div className='text-end p-2 d-flex'>
-                                                    <button className='btn btn-warning' value={comm._id} onClick={editHandler}>
-                                                        {constants.edit}<BiEdit className='mb-1 h5 icons' />
-                                                    </button>
-                                                    <button className='btn btn-danger ms-2' value={comm._id} onClick={deleteHandler}>
-                                                        {constants.delete}<AiFillDelete className='mb-1 h5 icons' />
-                                                    </button>
+                                                    {
+                                                        comm._id ?
+                                                            <EnableButtons editHandler={editHandler} deleteHandler={deleteHandler} id={comm._id} />
+                                                            : <DisabledButtons />
+                                                    }
                                                 </div>
                                                 : null
                                         }
