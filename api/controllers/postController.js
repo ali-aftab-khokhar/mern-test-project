@@ -37,8 +37,34 @@ const editThePost = async (req, res) => {
     }
 }
 
-const getOnePost = async (req, res) => {
-    PostServices.getOnePostService(req.params.id, res)
+const getOnePostService = async (req, res) => {
+    try {
+        Post.find({ _id: req.params.id }, function (err, doc) {
+            if (!err) {
+                res.status(200)
+                res.send(doc)
+            }
+        })
+    } catch {
+        res.status(400).send(constants.cant_get_individual_post)
+    }
+}
+
+const getProfileDataService = async (id, res) => {
+    try {
+        await User.findOne({ _id: id }, function (err, doc) {
+            if (!err) {
+                Post.find({ ownerEmail: doc.email }, function (p_err, p_doc) {
+                    if (!p_err) {
+                        res.status(200)
+                        res.json(p_doc)
+                    }
+                })
+            }
+        })
+    } catch {
+        res.status(400)
+    }
 }
 
 module.exports = {
@@ -46,5 +72,6 @@ module.exports = {
     addNewPost,
     deleteThePost,
     editThePost,
-    getOnePost
+    getOnePost,
+    getProfile
 }

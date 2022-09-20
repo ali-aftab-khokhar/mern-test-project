@@ -32,7 +32,8 @@ const constants = {
     add_new_comment: 'Add New Comment',
     post_title: 'Title: ',
     post_body: 'Body: ',
-    something_went_wrong: 'Something went wrong.'
+    something_went_wrong: 'Something went wrong.',
+    my_profile: 'My Profile'
 }
 
 export default constants

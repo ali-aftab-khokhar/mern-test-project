@@ -6,6 +6,7 @@ import Post from './pages/posts/Post';
 import Comment from './pages/comments/Comments';
 import NotFound from './pages/notFound/NotFound';
 import { ToastContainer } from 'react-toastify';
+import Profile from './pages/profile/Profile';
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
             <Route exact path='/register' element={<Register />} />
             <Route exact path='/posts' element={<Post />} />
             <Route exact path='/post/:id/comments' element={<Comment />} />
+            <Route exact path='/profile/:id' element={<Profile />} />
             <Route exact path='*' element={<NotFound />} />
           </Routes>
         </Router>
