@@ -34,7 +34,9 @@ const constants = {
     post_body: 'Body: ',
     something_went_wrong: 'Something went wrong.',
     my_profile: 'My Profile',
-    loginFirst: 'Login first to check comments'
+    loginFirst: 'Login first to check comments',
+    like: 'Like',
+    unlike: 'Unlike'
 }
 
 export default constants

@@ -8,12 +8,16 @@ import './Icon.css'
 import { useNavigate } from 'react-router-dom'
 import ContextAPI from '../../contextState/contextAPI'
 import DisabledButtons from './DisabledButtons'
+import LikePost from './LikePost'
+import UnlikePost from './UnlikePost'
+import putService from '../../services/putMethod'
 
 const PostCard = (props) => {
     const navigate = useNavigate()
     const context = useContext(ContextAPI)
     const [editToggle, setEditToggle] = useState(false)
     const [activePostId, setActivePostId] = useState("")
+    const [statusOfPost, setStatusOfPost] =  useState(true)
 
     const openComments = (e) => {
         navigate(`/post/${e.target.value}/comments`)
@@ -32,11 +36,35 @@ const PostCard = (props) => {
         navigate('/')
     }
 
+    const dislikeThePost = (id) => {
+        const payload = {
+            id: id,
+            email: context.isLoggedIn.email,
+            todo: 'dislike'
+        }
+        putService(payload, 'Disliked', `post/lod/${id}`)
+        isLikeOrDislike()
+    }
+
+    const likeThePost = (id) => {
+        const payload = {
+            id: id,
+            email: context.isLoggedIn.email,
+            todo: 'like'
+        }
+        putService(payload, 'Liked', `post/lod/${id}`)
+        isLikeOrDislike()
+    }
+
+    const isLikeOrDislike = () => {
+        setStatusOfPost(!statusOfPost)
+    }
+
     return (
         <div className='justify-content-center w-100'>
             {
                 props.allPosts ? props.allPosts.map((post) => {
-
+                    
                     return (
                         <div className="card mb-3" key={post._id}>
                             <div className="card-body">
@@ -45,9 +73,19 @@ const PostCard = (props) => {
                                 <p className="card-text">{post.body}</p>
                                 {
                                     context.isLoggedIn.email ?
-                                        <button className="btn btn-dark" value={post._id} onClick={openComments}>
-                                            {constants.comments}<FaComments className='ms-2 mb-0 h5 icons' />
-                                        </button>
+                                        <div className='d-flex'>
+                                            <button className="btn btn-dark" value={post._id} onClick={openComments}>
+                                                {constants.comments}<FaComments className='ms-2 mb-0 h5 icons' />
+                                            </button>
+                                            <div>
+                                                {
+                                                    post.likes.includes(context.isLoggedIn.email) && statusOfPost
+                                                    ? <LikePost dislikeThePost={dislikeThePost} id={post._id} count={post.likes.length}/>
+                                                    : <UnlikePost likeThePost={likeThePost} id={post._id} count={post.likes.length} />
+                                                }
+                                                
+                                            </div>
+                                        </div>
                                         : <div>
                                             <button className="btn btn-dark" value={post._id} onClick={loginFirst}>
                                                 {constants.loginFirst}
@@ -75,6 +113,7 @@ const PostCard = (props) => {
                                     </div>
                                     : null
                             }
+
                             {
                                 props.currentUser.email === post.ownerEmail && activePostId === post._id && editToggle ?
                                     <EditPost saveEdits={saveEdits} title={post.title} body={post.body} id={post._id} />
