@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express();
-const { getAllPosts, addNewPost, deleteThePost, editThePost, getOnePost, getProfile } = require('../controllers/postController')
+const { getAllPosts, addNewPost, deleteThePost, editThePost, getOnePost, getProfile, likeAndDislike } = require('../controllers/postController')
 
 app.route('/posts')
 .get(getAllPosts)
@@ -9,6 +9,8 @@ app.route('/posts')
 app.route('/posts/:id')
 .delete(deleteThePost)
 .put(editThePost)
+
+app.put('/post/lod/:id', likeAndDislike)
 
 app.get('/post/:id/comments', getOnePost)
 

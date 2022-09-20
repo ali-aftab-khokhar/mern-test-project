@@ -67,11 +67,20 @@ const getProfileDataService = async (id, res) => {
     }
 }
 
+const likeAndDislike = async (req, res) => {
+    try {        
+        PostServices.likeAndDislikeService(req, res) 
+    } catch {
+        res.status(400).send(constants.profile_data_failed)
+    }
+}
+
 module.exports = {
     getAllPosts,
     addNewPost,
     deleteThePost,
     editThePost,
     getOnePost,
-    getProfile
+    getProfile,
+    likeAndDislike
 }

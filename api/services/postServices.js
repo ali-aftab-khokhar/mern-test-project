@@ -80,4 +80,48 @@ const getProfileDataService = async (id, res) => {
     }
 }
 
-module.exports = { getPostsService, addNewPostService, deletePostService, editPostService, getOnePostService, getProfileDataService }
+const likeAndDislikeService = async (req, res) => {
+    try {
+        if (req.body.todo === constants.dislike) {
+            dislikeService(req, res)
+        } else if (req.body.todo === constants.like) {
+            likeService(req, res)
+        }
+    } catch {
+        res.status(400)
+    }
+}
+
+const dislikeService = (req, res) => {
+    try {
+        Post.findByIdAndUpdate(req.body.id,
+            { "$pull": { likes: req.body.email } },
+            { "new": true, "upsert": true },
+            function (err, doc) {
+                if (!err) {
+                    res.status(200).send(constants.disliked)
+                }
+            }
+        );
+    } catch {
+        res.status(400).send(constants.like_dislike_failed)
+    }
+}
+
+const likeService = async (req, res) => {
+    try {
+        Post.findByIdAndUpdate(req.body.id,
+            { "$push": { likes: req.body.email } },
+            { "new": true, "upsert": true },
+            function (err, doc) {
+                if (!err) {
+                    res.status(200).send(constants.liked)
+                }
+            }
+        );
+    } catch {
+        res.status(400).send(constants.like_dislike_failed)
+    }
+}
+
+module.exports = { getPostsService, addNewPostService, deletePostService, editPostService, getOnePostService, getProfileDataService, likeAndDislikeService }

@@ -30,7 +30,12 @@ const constants = {
     signup_failed: 'Signup failed',
     profile_data_failed: 'Profile data loading failed',
     post_fetch_failed: 'Cant fetch all posts',
-    comments_fetch_failed: 'Cant fetch all comments'
+    comments_fetch_failed: 'Cant fetch all comments',
+    dislike: 'dislike',
+    like: 'like',
+    liked: 'Liked',
+    disliked: 'Disliked',
+    like_dislike_failed: 'Cant like or disliked'
 }
 
 module.exports = constants
