@@ -27,21 +27,14 @@ A post should have a text and commenter name.\
 The user can edit or delete his/her comment.\
 Owner of the post can delete the comment.
 
-### 3. Publishing
+### 4. Publishing
 
 The user should be able to publish his/her posts.\
 Once published, the post can be seen by other users and non users.
 
-### 5. Drafts
-
-The user should be able to draft his/her posts.\
-Only the author (user) should be able to see his/her drafted posts.\
-The user should be able to edit his/her draft.\
-Once published, the draft should be removed.
-
 ### `Bonus Task`
 
-### 6. Likes
+### 5. Likes
 
 All authenticated user can like the post\
 Like button should behave like the toggle

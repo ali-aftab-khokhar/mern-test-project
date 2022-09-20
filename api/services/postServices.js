@@ -59,11 +59,11 @@ const getOnePostService = async (req, res) => {
             }
         })
     } catch {
-        res.status(400).send(constants.something_went_wrong)
+        res.status(400).send(constants.cant_get_individual_post)
     }
 }
 
-const getProfileData = async (id, res) => {
+const getProfileDataService = async (id, res) => {
     try {
         await User.findOne({ _id: id }, function (err, doc) {
             if (!err) {
@@ -79,5 +79,4 @@ const getProfileData = async (id, res) => {
         res.status(400)
     }
 }
-
 module.exports = { getPostsService, addNewPostService, deletePostService, editPostService, getOnePostService, getProfileData }
