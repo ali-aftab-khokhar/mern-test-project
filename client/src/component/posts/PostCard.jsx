@@ -7,7 +7,6 @@ import { AiFillDelete } from 'react-icons/ai'
 import './Icon.css'
 import { useNavigate } from 'react-router-dom'
 import ContextAPI from '../../contextState/contextAPI'
-import DisabledButtons from './DisabledButtons'
 import LikePost from './LikePost'
 import UnlikePost from './UnlikePost'
 import putService from '../../services/putMethod'
@@ -57,7 +56,7 @@ const PostCard = (props) => {
         <div className='justify-content-center w-100'>
             {
                 props.allPosts ? props.allPosts.map((post) => {
-                    
+
                     return (
                         <div className="card mb-3" key={post._id}>
                             <div className="card-body">
@@ -73,8 +72,8 @@ const PostCard = (props) => {
                                             <div>
                                                 {
                                                     post.likes.includes(context.isLoggedIn.email)
-                                                    ? <LikePost dislikeThePost={dislikeThePost} id={post._id} count={post.likes.length}/>
-                                                    : <UnlikePost likeThePost={likeThePost} id={post._id} count={post.likes.length} />
+                                                        ? <LikePost dislikeThePost={dislikeThePost} id={post._id} count={post.likes.length} />
+                                                        : <UnlikePost likeThePost={likeThePost} id={post._id} count={post.likes.length} />
                                                 }
                                             </div>
                                         </div>
@@ -89,19 +88,12 @@ const PostCard = (props) => {
                             {
                                 props.currentUser.email === post.ownerEmail ?
                                     <div className='text-end p-3'>
-                                        {
-                                            post._id
-                                                ? <div>
-                                                    <button className='btn btn-warning' value={post._id} onClick={editHandler}>
-                                                        {constants.edit}<BiEdit className='ms-2 mb-0 h5 icons' />
-                                                    </button>
-                                                    <button className='btn btn-danger ms-2' value={post._id} onClick={props.deleteThePost}>
-                                                        {constants.delete}<AiFillDelete className='ms-2 mb-0 h5 icons' />
-                                                    </button>
-                                                </div>
-                                                :
-                                                <DisabledButtons />
-                                        }
+                                        <button className='btn btn-warning' value={post._id} onClick={editHandler}>
+                                            {constants.edit}<BiEdit className='ms-2 mb-0 h5 icons' />
+                                        </button>
+                                        <button className='btn btn-danger ms-2' value={post._id} onClick={props.deleteThePost}>
+                                            {constants.delete}<AiFillDelete className='ms-2 mb-0 h5 icons' />
+                                        </button>
                                     </div>
                                     : null
                             }

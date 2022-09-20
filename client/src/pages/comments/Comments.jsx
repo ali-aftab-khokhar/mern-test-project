@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import constants from '../../constants'
 import contextAPI from '../../contextState/contextAPI'
@@ -9,20 +9,16 @@ import AddNewComment from '../../component/comment/AddNewComment'
 import postService from '../../services/postMethod'
 import deleteService from '../../services/deleteMethod'
 import EnableButtons from '../../component/comment/EnableButtons'
-import DisabledButtons from '../../component/comment/DisabledButtons'
 
 const Comment = () => {
     const params = useParams()
-    const [status, forceUpdate] = useState(false)
-    const [commentsData] = useFetch(`${params.id}/comments`)
+    const [commentsData, refetchData] = useFetch(`${params.id}/comments`)
     const [post] = useFetch(`post/${params.id}/comments`)
     const context = useContext(contextAPI)
     const [isLoggedIn] = useState(context.isLoggedIn)
     const navigate = useNavigate()
     const [editToggle, setEditToggle] = useState(false)
     const [activeCommentId, setActiveCommentId] = useState("")
-
-    useEffect(() => { }, [commentsData, status])
 
     const addNewComment = (body, email) => {
         const payload = {
@@ -33,25 +29,24 @@ const Comment = () => {
         if (isLoggedIn.email) {
             postService(payload, 'Commented', `${params.id}/comments`)
         }
-        forceUpdate(!status)
-        commentsData.push(payload)
+        refetchData()
     }
 
     const deleteHandler = (e) => {
         const id = e.target.value
         deleteService(`comment/${id}`)
-        const indexOfObject = commentsData.findIndex(obj => { return obj._id === id; });
-        commentsData.splice(indexOfObject, 1)
-        forceUpdate(!status)
+        refetchData()
     }
 
     const editHandler = (e) => {
         setActiveCommentId(e.target.value)
         setEditToggle(!editToggle)
+        refetchData()
     }
 
     const saveEdits = (e) => {
         setEditToggle(!editToggle)
+        refetchData()
     }
 
     const goBackHandler = () => {
@@ -95,11 +90,7 @@ const Comment = () => {
                                         {
                                             comm.commentBy === isLoggedIn.email ?
                                                 <div className='text-end p-2 d-flex'>
-                                                    {
-                                                        comm._id ?
-                                                            <EnableButtons editHandler={editHandler} deleteHandler={deleteHandler} id={comm._id} />
-                                                            : <DisabledButtons />
-                                                    }
+                                                    <EnableButtons editHandler={editHandler} deleteHandler={deleteHandler} id={comm._id} />
                                                 </div>
                                                 : null
                                         }

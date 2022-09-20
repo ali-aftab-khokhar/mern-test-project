@@ -27,6 +27,12 @@ const addNewPostService = async (ownerName, ownerEmail, title, body, likes, res)
             likes: likes
         })
         await postDetails.save()
+        Post.find({ ownerEmail: ownerEmail, ownerName: ownerName, title: title, likes: likes, body: body }, function(err, doc) {
+            if (!err){
+                res.status(200)
+                res.json(doc)
+            }
+        })
     } catch {
         res.status(400).send(constants.publish_new_post_failed)
     }

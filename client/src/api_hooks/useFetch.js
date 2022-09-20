@@ -15,9 +15,13 @@ const useFetch = (url) => {
                 .catch(() => console.log(constants.API_Error), [])
         }
         fetchData()
-    }, [url])
+    }, [url, data])
 
-    return [data];
+    const refetchData = () => {
+        setData([])
+    }
+
+    return [data, refetchData];
 };
 
 export default useFetch;
