@@ -17,7 +17,6 @@ const PostCard = (props) => {
     const context = useContext(ContextAPI)
     const [editToggle, setEditToggle] = useState(false)
     const [activePostId, setActivePostId] = useState("")
-    const [statusOfPost, setStatusOfPost] =  useState(true)
 
     const openComments = (e) => {
         navigate(`/post/${e.target.value}/comments`)
@@ -43,7 +42,6 @@ const PostCard = (props) => {
             todo: 'dislike'
         }
         putService(payload, 'Disliked', `post/lod/${id}`)
-        isLikeOrDislike()
     }
 
     const likeThePost = (id) => {
@@ -53,11 +51,6 @@ const PostCard = (props) => {
             todo: 'like'
         }
         putService(payload, 'Liked', `post/lod/${id}`)
-        isLikeOrDislike()
-    }
-
-    const isLikeOrDislike = () => {
-        setStatusOfPost(!statusOfPost)
     }
 
     return (
@@ -79,7 +72,7 @@ const PostCard = (props) => {
                                             </button>
                                             <div>
                                                 {
-                                                    post.likes.includes(context.isLoggedIn.email) && statusOfPost
+                                                    post.likes.includes(context.isLoggedIn.email)
                                                     ? <LikePost dislikeThePost={dislikeThePost} id={post._id} count={post.likes.length}/>
                                                     : <UnlikePost likeThePost={likeThePost} id={post._id} count={post.likes.length} />
                                                 }
