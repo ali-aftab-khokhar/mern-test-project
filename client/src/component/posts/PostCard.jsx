@@ -76,7 +76,6 @@ const PostCard = (props) => {
                                                     ? <LikePost dislikeThePost={dislikeThePost} id={post._id} count={post.likes.length}/>
                                                     : <UnlikePost likeThePost={likeThePost} id={post._id} count={post.likes.length} />
                                                 }
-                                                
                                             </div>
                                         </div>
                                         : <div>

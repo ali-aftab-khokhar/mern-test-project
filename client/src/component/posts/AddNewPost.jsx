@@ -9,7 +9,8 @@ const AddNewPost = (props) => {
     const postTitleRef = useRef()
     const postBodyRef = useRef()
 
-    const publishPost = () => {
+    const publishPost = (e) => {
+        e.preventDefault()
         props.publishPost(postTitleRef.current.value, postBodyRef.current.value)
         openOrCloseModal()
     }

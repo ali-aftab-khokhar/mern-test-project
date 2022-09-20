@@ -38,7 +38,8 @@ const Post = () => {
             title: title,
             body: body,
             ownerEmail: isLoggedIn.email,
-            ownerName: isLoggedIn.name
+            ownerName: isLoggedIn.name,
+            likes: []
         }
         if (payload.ownerEmail) {
             postService(payload, 'Posted', 'posts')

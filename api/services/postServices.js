@@ -17,13 +17,14 @@ const getPostsService = async (res) => {
     }
 }
 
-const addNewPostService = async (ownerName, ownerEmail, title, body, res) => {
+const addNewPostService = async (ownerName, ownerEmail, title, body, likes, res) => {
     try {
         const postDetails = new Post({
             ownerName: ownerName,
             title: title,
             body: body,
-            ownerEmail: ownerEmail
+            ownerEmail: ownerEmail,
+            likes: likes
         })
         await postDetails.save()
     } catch {
