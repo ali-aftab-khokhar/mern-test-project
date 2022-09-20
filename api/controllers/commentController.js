@@ -9,7 +9,7 @@ const getAllComments = async (req, res) => {
     try {
         await CommentServices.getCommentsService(req.params.id, res)
     } catch {
-        res.status(400).send(constants.something_went_wrong)
+        res.status(400).send(constants.comments_fetch_failed)
     }
 }
 
@@ -23,7 +23,7 @@ const addNewComment = async (req, res) => {
         CommentServices.addCommentService(payload, res)
         res.status(200).send(constants.commented)
     } catch {
-        res.status(400).send(constants.something_went_wrong)
+        res.status(400).send(constants.publish_new_comment_failed)
     }
 }
 
@@ -32,7 +32,7 @@ const deleteTheComment = async (req, res) => {
         CommentServices.deleteCommentService(req.params.id, res)
         res.status(200).send(constants.deleted)
     } catch {
-        res.status(400).send(constants.something_went_wrong)
+        res.status(400).send(constants.deletion_failed)
     }
 }
 
@@ -41,7 +41,7 @@ const editTheComment = async (req, res) => {
         CommentServices.editCommentService(req.params.id, req.body.updatedComment, res)
         res.status(200).send(constants.updated)
     } catch {
-        res.status(400).send(constants.something_went_wrong)
+        res.status(400).send(constants.edit_failed)
     }
 }
 

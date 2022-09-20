@@ -33,7 +33,7 @@ const addCommentService = async (payload, res) => {
             commentDetails.save()
         })
     } catch {
-        res.status(400).send(constants.something_went_wrong)
+        res.status(400).send(constants.publish_new_post_failed)
     }
 }
 
@@ -41,7 +41,7 @@ const deleteCommentService = async (id, res) => {
     try {
         await Comment.findByIdAndDelete(id)
     } catch {
-        res.status(400).send(constants.something_went_wrong)
+        res.status(400).send(constants.deletion_failed)
     }
 }
 
@@ -52,7 +52,7 @@ const editCommentService = async (id, body, res) => {
             commentBody: body
         })
     } catch {
-        res.status(400).send(constants.something_went_wrong)
+        res.status(400).send(constants.edit_failed)
     }
 }
 

@@ -5,7 +5,7 @@ const getAllPosts = async (req, res) => {
     try {
         await PostServices.getPostsService(res)
     } catch {
-        res.status(400).send(constants.something_went_wrong)
+        res.status(400).send(constants.post_fetch_failed)
     }
 }
 
@@ -15,7 +15,7 @@ const addNewPost = async (req, res) => {
         PostServices.addNewPostService(ownerName, ownerEmail, title, body, res)
         res.status(200).send(constants.posted)
     } catch {
-        res.status(400).send(constants.something_went_wrong)
+        res.status(400).send(constants.publish_new_post_failed)
     }
 }
 
@@ -24,7 +24,7 @@ const deleteThePost = async (req, res) => {
         PostServices.deletePostService(req.params.id, res)
         res.status(200).send(constants.posted)
     } catch {
-        res.status(400).send(constants.something_went_wrong)
+        res.status(400).send(constants.deletion_failed)
     }
 }
 
@@ -33,7 +33,7 @@ const editThePost = async (req, res) => {
         PostServices.editPostService(req.params.id, req.body.title, req.body.body, res)
         res.status(200).send(constants.posted)
     } catch {
-        res.status(400).send(constants.something_went_wrong)
+        res.status(400).send(constants.edit_failed)
     }
 }
 
@@ -63,7 +63,7 @@ const getProfileDataService = async (id, res) => {
             }
         })
     } catch {
-        res.status(400)
+        res.status(400).send(constants.profile_data_failed)
     }
 }
 
