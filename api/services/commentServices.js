@@ -47,7 +47,6 @@ const deleteCommentService = async (id, res) => {
 
 const editCommentService = async (id, body, res) => {
     try {
-        console.log(body)
         await Comment.findByIdAndUpdate(id, {
             commentBody: body
         })

@@ -1,6 +1,6 @@
 require('dotenv').config()
-const express = require('express');
 const cors = require("cors");
+const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const userRoute = require('./routes/userRoutes')
@@ -19,9 +19,9 @@ const options = {
     origin: ORIGIN,
 }
 
+app.use(cors(options));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors(options));
 app.use(userRoute)
 app.use(postRoute)
 app.use(commentRoute);
